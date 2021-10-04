@@ -4,18 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Carbon\Exceptions\Exception;
+use App\Traits\ErrorResponse;
+use App\Traits\SuccessResponse;
 use App\Http\Requests\ProductRequest;
 
 class ProductController extends Controller
 {
+    // Traits
+    use ErrorResponse;
+    use SuccessResponse;
+
+
     public function index()
     {
         $products = Product::all();
-        return response()->json([
-            "success" => true,
-            "products" => $products
-            ]);
+        return $this->successResponse($products);
     }/*
         end of list products
     */
@@ -23,13 +26,11 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        try {
-            Product::create($request->all());
-            return response()->json([
-                "success" => true,
-                ]);
-        } catch (\Exception $e) {
-            $this->errorResult($e);
+        $data = Product::create($request->all());
+        if ($data) {
+            return $this->successResponse($data);
+        } else {
+            return $this->errorResponse();
         }
     }/*
         end of store a product
@@ -39,10 +40,11 @@ class ProductController extends Controller
     public function show($id)
     {
         $product = Product::where("id", $id)->first();
-        return response()->json([
-            "success" => true,
-            "data" => $product
-            ]);
+        if ($product) {
+            return $this->successResponse($product);
+        }
+
+        return $this->errorResponse();
     }/*
         end of show a product
     */
@@ -50,36 +52,27 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        try {
-            $product = Product::where("id", $id)->first();
-            $product->update($request->all());
-        } catch (\Exception $e) {
-            $this->errorResult($e);
+        $product = Product::where("id", $id)->first();
+        if ($product) {
+            $result = $product->update($request->all());
+            return $this->successResponse($result);
         }
+
+        return $this->errorResponse();
     }/*
         end of update a product
     */
 
 
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-        try{
             $product = Product::where("id", $id)->first();
-            $product->delete();
-        }catch(\Exception $e){
-            $this->errorResult($e);
-        }
+            if($product){
+                $result = $product->delete();
+                return $this->successResponse($result);
+            }
+            return $this->errorResponse();
     }/*
         end of delete a product
-    */
-
-
-    public function errorResult(\Exception $e){
-        return response()->json([
-            "success" => false,
-            "message" => $e->getMessage()
-            ]);
-    }/*
-        end of handle err message 
     */
 }

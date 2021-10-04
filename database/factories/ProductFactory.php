@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class ProductFactory extends Factory
@@ -21,8 +22,11 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
-        ];
+            return [
+                "name" => $this->faker->name,
+                "category_id" => function(){
+                    return Category::factory()->create()->id;
+                }
+            ];
     }
 }

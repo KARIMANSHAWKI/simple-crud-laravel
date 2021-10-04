@@ -15,4 +15,4 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::resource('product', ProductController::class);
+Route::resource('products', ProductController::class);
