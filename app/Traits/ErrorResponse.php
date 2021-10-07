@@ -4,9 +4,10 @@ namespace App\Traits;
 
 trait ErrorResponse
 {
-    public function errorResponse()
+    public function errorResponse(\Exception $e)
     {
         return response()->json([
+            "data" => $e->getMessage(),
             "success" => false,
             ]);
     }/*

@@ -26,11 +26,11 @@ class ProductController extends Controller
 
     public function store(ProductRequest $request)
     {
-        $data = Product::create($request->all());
-        if ($data) {
-            return $this->successResponse($data);
-        } else {
-            return $this->errorResponse();
+        try {
+            $product = Product::create($request->all());
+            return $this->successResponse($product);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
     }/*
         end of store a product
@@ -39,12 +39,12 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::where("id", $id)->first();
-        if ($product) {
+        try {
+            $product = Product::where("id", $id)->firstOrFail();
             return $this->successResponse($product);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
-
-        return $this->errorResponse();
     }/*
         end of show a product
     */
@@ -52,13 +52,13 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
-        $product = Product::where("id", $id)->first();
-        if ($product) {
+        try {
+            $product = Product::where("id", $id)->firstOrFail();
             $result = $product->update($request->all());
             return $this->successResponse($result);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
-
-        return $this->errorResponse();
     }/*
         end of update a product
     */
@@ -66,12 +66,13 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-            $product = Product::where("id", $id)->first();
-            if($product){
-                $result = $product->delete();
-                return $this->successResponse($result);
-            }
-            return $this->errorResponse();
+        try {
+            $product = Product::where("id", $id)->firstOrFail();
+            $result = $product->delete();
+            return $this->successResponse($result);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
+        }
     }/*
         end of delete a product
     */

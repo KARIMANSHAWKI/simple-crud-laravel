@@ -26,11 +26,11 @@ class CategoryController extends Controller
 
     public function store(CategoryRequest $request)
     {
-        $data = Category::create($request->all());
-        if ($data) {
+        try {
+            $data = Category::create($request->all());
             return $this->successResponse($data);
-        } else {
-            return $this->errorResponse();
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
     }/*
         end of store a category
@@ -39,12 +39,12 @@ class CategoryController extends Controller
 
     public function show($id)
     {
-        $category = Category::where("id", $id)->first();
-        if ($category) {
+        try {
+            $category = Category::where("id", $id)->firstOrFail();
             return $this->successResponse($category);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
-
-        return $this->errorResponse();
     }/*
         end of show a $category
     */
@@ -52,25 +52,26 @@ class CategoryController extends Controller
 
     public function update(CategoryRequest $request, $id)
     {
-        $category = Category::where("id", $id)->first();
-        if ($category) {
+        try {
+            $category = Category::where("id", $id)->firstOrFail();
             $result = $category->update($request->all());
             return $this->successResponse($result);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
         }
-
-        return $this->errorResponse();
     }/*
         end of update a ca$category
     */
 
     public function destroy($id)
     {
-            $category = Category::where("id", $id)->first();
-            if($category){
-                $result = $category->delete();
-                return $this->successResponse($result);
-            }
-            return $this->errorResponse();
+        try {
+            $category = Category::where("id", $id)->firstOrFail();
+            $result = $category->delete();
+            return $this->successResponse($result);
+        } catch (\Exception $e) {
+            return $this->errorResponse($e);
+        }
     }/*
         end of delete a category
     */
