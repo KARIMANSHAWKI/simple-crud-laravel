@@ -20,9 +20,7 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return $this->successResponse($products);
-    }/*
-        end of list products
-    */
+    }
 
 
     public function store(ProductRequest $request)
@@ -33,22 +31,18 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
-    }/*
-        end of store a product
-    */
+    }
 
 
     public function show($id)
     {
+        $product = Product::findOrFail($id);
         try {
-            $product = Product::where("id", $id)->firstOrFail();
-            return $this->successResponse($product);
+            return $this->successResponse(new ProductResource($product));
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
-    }/*
-        end of show a product
-    */
+    }
 
 
     public function update(ProductRequest $request, $id)
@@ -60,9 +54,7 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
-    }/*
-        end of update a product
-    */
+    }
 
 
     public function destroy($id)
@@ -74,7 +66,5 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
-    }/*
-        end of delete a product
-    */
+    }
 }
