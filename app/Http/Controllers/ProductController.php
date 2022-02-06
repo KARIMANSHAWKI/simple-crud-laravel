@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Traits\ErrorResponse;
 use App\Traits\SuccessResponse;
 use App\Http\Requests\ProductRequest;
+use App\Http\Resources\Product as ProductResource;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,7 @@ class ProductController extends Controller
     {
         try {
             $product = Product::create($request->all());
-            return $this->successResponse($product);
+            return $this->successResponse(new ProductResource($product));
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }

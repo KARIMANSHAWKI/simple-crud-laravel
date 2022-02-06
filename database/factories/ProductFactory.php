@@ -22,11 +22,13 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $name = $this->faker->name;
+        $slug = str_slug($name, '-');
+
             return [
-                "name" => $this->faker->name,
-                "category_id" => function(){
-                    return Category::factory()->create()->id;
-                }
+                "name" => $name,
+                "category_id" => Category::factory()->create()->id,
+                "slug" => $slug
             ];
     }
 }
