@@ -10,7 +10,5 @@ trait SuccessResponse
             "success" => true,
             "data" => $data
             ]);
-    }/*
-        end of response message
-    */
+    }
 }

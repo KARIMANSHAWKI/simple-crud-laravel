@@ -5,8 +5,10 @@ namespace Tests\Feature\Product;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 use App\Models\Product;
+use App\Models\User;
 
 class AddProducTest extends TestCase
 {
@@ -16,6 +18,8 @@ class AddProducTest extends TestCase
     
     /** @test */
     public function CanCreateProduct(){
+        Sanctum::actingAs(User::factory()->create());
+
         $payload = Product::factory()->make()->toArray();
         $response = $this->post(self::baseUrl . '/products', $payload);
         $response->assertJsonStructure([
@@ -29,13 +33,18 @@ class AddProducTest extends TestCase
 
     /** @test  */
     public function ProductRequireAttributeName(){
+        $this->withoutExceptionHandling();
+        Sanctum::actingAs(User::factory()->create());
+
         $payload = Product::factory()->raw(['name' => '']);
         $response = $this->post(self::baseUrl . '/products', $payload);
-        $response->assertSessionHasErrors('name');
+        $response->assertJson('kk')->assertStatus(422);
     }
 
     /** @test */
     public function  ProductRequireAttributeCategoryId(){
+        Sanctum::actingAs(User::factory()->create());
+
         $payload = Product::factory()->raw(['category_id' => '']);
         $response = $this->post(self::baseUrl . '/products', $payload);
         $response->assertSessionHasErrors('category_id');
@@ -43,6 +52,8 @@ class AddProducTest extends TestCase
 
     /** @test */
     public function  ProductHasUniqueAttributeSlug(){
+        Sanctum::actingAs(User::factory()->create());
+
         $payload = Product::factory()->create()->toArray();
         $response = $this->post(self::baseUrl . '/products', $payload);
         $response->assertSessionHasErrors('slug');

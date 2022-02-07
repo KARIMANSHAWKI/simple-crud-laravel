@@ -15,6 +15,8 @@ use App\Http\Controllers\CategoryController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::middleware('auth:sanctum')->group(function (){
+    Route::resource('products', ProductController::class);
+    Route::resource('categories', CategoryController::class);
+});
 
-Route::resource('products', ProductController::class);
-Route::resource('categories', CategoryController::class);
