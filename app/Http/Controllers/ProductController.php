@@ -36,8 +36,9 @@ class ProductController extends Controller
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+
         try {
+            $product = Product::findOrFail($id);
             return $this->successResponse(new ProductResource($product));
         } catch (\Exception $e) {
             return $this->errorResponse($e);
@@ -47,10 +48,11 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
+        $product = Product::findOrFail($id);
+
         try {
-            $product = Product::where("id", $id)->firstOrFail();
             $result = $product->update($request->all());
-            return $this->successResponse($result);
+            return $this->successResponse(new ProductResource($product));
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }

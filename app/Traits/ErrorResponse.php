@@ -9,7 +9,7 @@ trait ErrorResponse
         return response()->json([
             "data" => $e->getMessage(),
             "success" => false,
-            ]);
+            ], 404);
     }/*
         end of handle err message
     */

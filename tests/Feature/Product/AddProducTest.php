@@ -16,23 +16,15 @@ class AddProducTest extends TestCase
     
     /** @test */
     public function CanCreateProduct(){
-
-
         $payload = Product::factory()->make()->toArray();
-
         $response = $this->post(self::baseUrl . '/products', $payload);
-
-        \Log::info($response->getContent());
-
         $response->assertJsonStructure([
             "success",
             "data" => [
                 'id', 'name', 'category_id', 'slug', 'created_at'
             ]
         ])->assertStatus(200);
-
         $this->assertDatabaseHas(self::MODEL, $payload);
-
     }
 
     /** @test  */

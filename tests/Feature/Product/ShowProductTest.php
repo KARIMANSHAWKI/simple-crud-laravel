@@ -17,7 +17,7 @@ class ShowProductTest extends TestCase
     /** @test */
     public function CanReturnProduct(){
 
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
         $product = Product::factory()->create();
 
 
