@@ -12,6 +12,9 @@ class DeleteProductTest extends TestCase
 {
     use DatabaseMigrations, RefreshDatabase;
 
+    const MODEL = 'products';
+
+
     /** @test */
     public function  WillFailWithA404IfProductWeWantToDeleteIsNotFound()
     {
@@ -30,5 +33,7 @@ class DeleteProductTest extends TestCase
         $response = $this->delete(self::baseUrl . '/products/' . $product->id);
 
         $response->assertStatus(200)->assertSee(null);
+
+        $this->assertDatabaseMissing(self::MODEL, ['id' => $product->id]);
     }
 }

@@ -8,6 +8,7 @@ use App\Traits\ErrorResponse;
 use App\Traits\SuccessResponse;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product as ProductResource;
+use App\Http\Resources\ProductCollection;
 
 class ProductController extends Controller
 {
@@ -18,8 +19,8 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::all();
-        return $this->successResponse($products);
+        $products = Product::paginate();
+        return $this->successResponse(new ProductCollection($products));
     }
 
 
