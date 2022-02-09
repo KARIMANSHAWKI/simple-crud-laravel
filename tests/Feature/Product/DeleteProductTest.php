@@ -3,9 +3,11 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class DeleteProductTest extends TestCase
@@ -18,6 +20,8 @@ class DeleteProductTest extends TestCase
     /** @test */
     public function  WillFailWithA404IfProductWeWantToDeleteIsNotFound()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
 
         $response = $this->delete(self::baseUrl . '/products/-1');
@@ -28,6 +32,8 @@ class DeleteProductTest extends TestCase
     /** @test  */
     public function CanUpdateAProduct()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
 
         $response = $this->delete(self::baseUrl . '/products/' . $product->id);

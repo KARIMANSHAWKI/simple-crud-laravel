@@ -3,9 +3,11 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class ListProductTest extends TestCase
@@ -15,6 +17,8 @@ class ListProductTest extends TestCase
     /** @test */
     public function CanReturnACollectionOfPaginatedProducts()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $products = Product::factory(3)->create();
         $response = $this->get(self::baseUrl . '/products');
 

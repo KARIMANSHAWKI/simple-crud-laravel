@@ -2,9 +2,7 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,45 +36,6 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
 
-        });
-
-     //Handle Validation Exception
-        $this->renderable(function (ValidationException $e , $request){
-            if($request->expectsJson()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Validation Failed',
-                    'data' => null,
-                    'error' => $e->errors()
-                ], 422);
-            }
-        });
-
-        //Handle Authorization Exception
-        $this->renderable(function (AuthenticationException $e , $request){
-            if($request->expectsJson()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Valid Auth Credential Exception',
-                    'data' => null,
-                    'error' => null
-                ], 401);
-            }
-
-            return redirect()->guest('login');
-        });
-
-
-        //Handle NotFound Exception
-        $this->renderable(function (AuthenticationException $e , $request){
-            if($request->expectsJson()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'Valid Auth Credential Exception',
-                    'data' => null,
-                    'error' => null
-                ], 404);
-            }
         });
     }
 }

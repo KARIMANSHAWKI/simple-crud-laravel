@@ -3,12 +3,13 @@
 namespace App\Exceptions;
 
 use Exception;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Http\JsonResponse;
+use Throwable;
 
 class ValidationErrorException extends Exception
 {
-    public function validationException()
+    public function render(Throwable $e) : JsonResponse
     {
-        return ValidationException::withMessages([]);
+        return response()->json(['errors' => [$e->getMessage()]], 422);
     }
 }

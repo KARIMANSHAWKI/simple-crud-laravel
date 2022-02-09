@@ -33,12 +33,12 @@ class AddProducTest extends TestCase
 
     /** @test  */
     public function ProductRequireAttributeName(){
-        $this->withoutExceptionHandling();
         Sanctum::actingAs(User::factory()->create());
 
         $payload = Product::factory()->raw(['name' => '']);
         $response = $this->post(self::baseUrl . '/products', $payload);
-        $response->assertJson('kk')->assertStatus(422);
+
+        $response->assertSessionHasErrors('name');
     }
 
     /** @test */

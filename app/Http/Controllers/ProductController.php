@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ValidationErrorException;
 use App\Models\Product;
-use Illuminate\Http\Request;
 use App\Traits\ErrorResponse;
 use App\Traits\SuccessResponse;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\ProductCollection;
-use Illuminate\Validation\ValidationException;
+use Throwable;
+
 
 class ProductController extends Controller
 {
@@ -30,20 +30,15 @@ class ProductController extends Controller
     {
         try{
             $product = Product::create($request->all());
-            dd($product);
             return $this->successResponse(new ProductResource($product));
-        }catch (\Exception $e){
-            DB::rollback();
-            dd(';;');
-            // throw $exception->validationException();
+        }catch (Throwable $exception){
+            throw new ValidationErrorException($exception->getMessage());
         }
-
     }
 
 
     public function show($id)
     {
-
         try {
             $product = Product::findOrFail($id);
             return $this->successResponse(new ProductResource($product));

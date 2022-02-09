@@ -3,9 +3,10 @@
 namespace Tests\Feature\Product;
 
 use App\Models\Product;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class UpdateProductTest extends TestCase
@@ -17,6 +18,8 @@ class UpdateProductTest extends TestCase
     /** @test */
     public function  WillFailWithA404IfProductWeWantToUpdateIsNotFound()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
 
         $payload = Product::factory()->make()->toArray();
@@ -29,6 +32,8 @@ class UpdateProductTest extends TestCase
     /** @test */
     public function CanUpdateAProduct()
     {
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
 
         $payload = Product::factory()->make()->toArray();
@@ -47,6 +52,8 @@ class UpdateProductTest extends TestCase
 
     /** @test  */
     public function UpdateProductRequireAttributeName(){
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
         $payload = Product::factory()->raw(['name' => '']);
         $response = $this->put(self::baseUrl . '/products/' . $product->id, $payload);
@@ -55,6 +62,8 @@ class UpdateProductTest extends TestCase
 
     /** @test */
     public function  UpdateProductRequireAttributeCategoryId(){
+        Sanctum::actingAs(User::factory()->create());
+
         $product = Product::factory()->create();
         $payload = Product::factory()->raw(['category_id' => '']);
         $response = $this->put(self::baseUrl . '/products/' . $product->id, $payload);
