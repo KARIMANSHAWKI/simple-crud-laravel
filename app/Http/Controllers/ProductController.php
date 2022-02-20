@@ -9,6 +9,7 @@ use App\Traits\SuccessResponse;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\ProductCollection;
+use Illuminate\Http\Request;
 use Throwable;
 
 
@@ -70,5 +71,19 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             return $this->errorResponse($e);
         }
+    }
+
+
+    public function search(Request $request)
+    {
+        $product = Product::search( $request->query('product'))->get();
+        return $this->successResponse($product);
+    }
+
+
+    public function getProductList(){
+        $products = Product::all();
+//        dd($products);
+        return View('dashboard')->with('products', $products);
     }
 }

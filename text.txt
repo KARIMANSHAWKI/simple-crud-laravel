@@ -1,0 +1,35 @@
+ ------ ------------------------------------------------------------------- 
+  Line   CategoryController.php                                             
+ ------ ------------------------------------------------------------------- 
+  30     Call to an undefined static method App\Models\Category::create().  
+  43     Call to an undefined static method App\Models\Category::where().   
+  56     Call to an undefined static method App\Models\Category::where().   
+  69     Call to an undefined static method App\Models\Category::where().   
+ ------ ------------------------------------------------------------------- 
+
+ ------ -------------------------------------------------------------- 
+  Line   MailController.php                                            
+ ------ -------------------------------------------------------------- 
+  13     Call to an undefined static method App\Models\Mail::chunk().  
+ ------ -------------------------------------------------------------- 
+
+ ------ ------------------------------------------------------------------------ 
+  Line   PayOrderController.php                                                  
+ ------ ------------------------------------------------------------------------ 
+  22     PHPDoc tag @mixin contains unknown class App\Http\Controllers\Builder.  
+         💡 Learn more at https://phpstan.org/user-guide/discovering-symbols     
+  40     Call to an undefined static method App\Models\Order::create().          
+ ------ ------------------------------------------------------------------------ 
+
+ ------ ---------------------------------------------------------------------- 
+  Line   ProductController.php                                                 
+ ------ ---------------------------------------------------------------------- 
+  24     Call to an undefined static method App\Models\Product::paginate().    
+  32     Call to an undefined static method App\Models\Product::create().      
+  43     Call to an undefined static method App\Models\Product::findOrFail().  
+  53     Call to an undefined static method App\Models\Product::findOrFail().  
+  67     Call to an undefined static method App\Models\Product::where().       
+ ------ ---------------------------------------------------------------------- 
+
+ [ERROR] Found 12 errors                                                                                                
+

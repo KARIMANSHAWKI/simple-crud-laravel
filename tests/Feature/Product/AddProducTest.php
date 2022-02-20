@@ -27,7 +27,7 @@ class AddProducTest extends TestCase
             "data" => [
                 'id', 'name', 'category_id', 'slug', 'created_at'
             ]
-        ])->assertStatus(200);
+        ])->e(200);
         $this->assertDatabaseHas(self::MODEL, $payload);
     }
 

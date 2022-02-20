@@ -2,13 +2,20 @@
 
 namespace App\Billing;
 
-class PaymentGateway
+class PaymentGateway implements IPaymentGateway
 {
+/*    private $currency;
+
+    public function __construct($currency)
+    {
+        $this->currency = $currency;
+    }*/
+
     public function charge($amount)
     {
-//        sleep(3);
-
         return [
-            'amount' => $amount];
+            'amount' => $amount,
+            //'currency' => $this->currency
+        ];
     }
 }
